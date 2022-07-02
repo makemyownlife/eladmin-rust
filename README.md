@@ -2,23 +2,31 @@
 
 #### 介绍
 使用Rust实现的应用后台管理程序，前端采用最新版的eladmin前端，经过少量修改实现。主要修改是api路径的，以及表格或表单的字段绑定（因为rust的命名规范的要求进行了一些字段的修改）。
-该实现，主要是实现了eladmin中的系统管理功能，以及登录和用户中心。
+Chimes-rust，主要是实现了eladmin中的系统管理功能，以及登录和用户中心。对于其它部分的功能，可能会在后续的版本中进行实现。
 
 #### 软件架构
-软件架构说明
+Chimes-rust采用actix-web作为基础的WEB框架进行开发，而在ORM方面采用了Rbatis，目前暂时没有使用Redis来缓存相应的数据。
 
+#### 重点组件
+
+1.  actix-web
+2.  rbatis 
+3.  chimes-auth，基于actix-web的MiddleWare提供的权限管控的功能。
+4.  jsonwebtoken
+5.  rbatis-generator，这是另一个开源的用于生成rbatis为基础的rust源码
+
+#### 特别说明
+
+1. 关于el-admin前端，本应用不是为了提供更好的el-admin的前端，所做的修改都是为了与后台进行对接，所以是尽可能少的修改它。同时，在此特别感谢eladmin的作者，他为应用提供了一个功能丰富的管理前端。
+2. chimes-rust的大部分后端代码是采用rbatis-generator进行生成的，基本上达到85%。如对该项目感兴趣的，可以进仓库：https://gitee.com/poethxp/rbatis-generator 看看。
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  创建数据chimesrust，并导入数据 sql/chimesrust.sql；
+2.  编译 backend/chimes-rust，可以进入该目录后，直接执行cargo r
+3.  打包前端 frontend/eladmin-web
+4.  后端的一些配置可以修秘诀backend/chimes-rust/conf/app.yml
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 参与贡献
 
@@ -27,13 +35,3 @@
 3.  提交代码
 4.  新建 Pull Request
 
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-7. 
