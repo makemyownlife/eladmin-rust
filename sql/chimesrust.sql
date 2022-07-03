@@ -286,12 +286,15 @@ UNLOCK TABLES;
 -- Table structure for table `chimes_role`
 --
 
+-- chimesrust.chimes_role definition
+
 DROP TABLE IF EXISTS `chimes_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chimes_role` (
   `role_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(255) NOT NULL COMMENT '名称',
+  `role_code` varchar(100) NOT NULL COMMENT '角色代码',
   `level` int DEFAULT NULL COMMENT '角色级别',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `data_scope` varchar(255) DEFAULT NULL COMMENT '数据权限',
@@ -301,7 +304,9 @@ CREATE TABLE `chimes_role` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`role_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`),
-  KEY `role_name_index` (`name`)
+  UNIQUE KEY `chimes_role_UN` (`role_code`),
+  KEY `role_name_index` (`name`),
+  KEY `chimes_role_role_code_IDX` (`role_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -311,7 +316,7 @@ CREATE TABLE `chimes_role` (
 
 LOCK TABLES `chimes_role` WRITE;
 /*!40000 ALTER TABLE `chimes_role` DISABLE KEYS */;
-INSERT INTO `chimes_role` VALUES (1,'超级管理员',1,'-','全部',NULL,'admin','2018-11-23 11:04:37','2020-08-06 16:10:24'),(2,'普通用户',2,'-','本级',NULL,'admin','2018-11-23 13:09:06','2020-09-05 10:45:12');
+INSERT INTO `chimes_role` VALUES (1,'超级管理员', 'admin',1,'-','全部',NULL,'admin','2018-11-23 11:04:37','2020-08-06 16:10:24'),(2,'普通用户', 'user',2,'-','本级',NULL,'admin','2018-11-23 13:09:06','2020-09-05 10:45:12');
 /*!40000 ALTER TABLE `chimes_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
