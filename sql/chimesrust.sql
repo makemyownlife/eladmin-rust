@@ -431,7 +431,7 @@ CREATE TABLE `chimes_user` (
 
 LOCK TABLES `chimes_user` WRITE;
 /*!40000 ALTER TABLE `chimes_user` DISABLE KEYS */;
-INSERT INTO `chimes_user` VALUES (1,2,'admin','Administrator','男','18888888888','longzou@hotmail.com','181bec134b4_385759961688444928.png','D:/temp/files/181bec134b4_385759961688444928.png','M8nPHAc4HRo6FE6c00TEdAPongcLB7k4xIPX4AREl58tMoRZmEF91AqzZ3z+ToBa3xTH6zAa8A+V4yjfFa6cqw==',1,1,NULL,'admin','2020-05-03 16:38:31','2018-08-23 09:11:56','2020-09-05 10:43:31'),(2,17,'test1','测试1','男','19999999998','2231@qq.com',NULL,NULL,'EFzK8hZVtV6Hx4nbj/iZVNYreIq77rOirKZzAJJrhfUKkj0ZTgrWiFImQN5UP/OEuvE8bY+nK2tFgUDi/Suerw==',0,1,'admin','admin',NULL,'2020-05-05 11:15:49','2020-09-05 10:43:38');
+INSERT INTO `chimes_user` VALUES (1,2,'admin','Administrator','男','18888888888','longzou@hotmail.com','181bec134b4_385759961688444928.png','D:/temp/files/181bec134b4_385759961688444928.png','BQMVzBbbKUfJ6QQ5ix3EMyFQ5n/rPYyj2qQ4OlET3edST+GhoJ4/dVMJ0Rp4OmDu0Ualf5Mk9icyaW2+/ArwVg==',1,1,NULL,'admin','2020-05-03 16:38:31','2018-08-23 09:11:56','2020-09-05 10:43:31'),(2,17,'test1','测试1','男','19999999998','2231@qq.com',NULL,NULL,'BQMVzBbbKUfJ6QQ5ix3EMyFQ5n/rPYyj2qQ4OlET3edST+GhoJ4/dVMJ0Rp4OmDu0Ualf5Mk9icyaW2+/ArwVg==',0,1,'admin','admin',NULL,'2020-05-05 11:15:49','2020-09-05 10:43:38');
 /*!40000 ALTER TABLE `chimes_user` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -109,7 +109,7 @@ pub async fn auth_login(req: web::Json<UserAuth>) -> Result<HttpResponse> {
                                 hs.insert("authority".to_string(), username.clone());
                                 let mut roles = vec![];
                                 for rl in usc.roles.clone() {
-                                    roles.push(rl.name.unwrap_or_default());
+                                    roles.push(rl.role_code.unwrap_or_default());
                                 }
                                 let up = UserResponse {
                                     username: username.clone(),
@@ -173,7 +173,7 @@ pub async fn auth_info(su: SystemUser<ChimesUserInfo>) -> Result<HttpResponse> {
 
                             let mut roles = vec![];
                             for rl in mutus.roles.clone() {
-                                roles.push(rl.name.unwrap_or_default());
+                                roles.push(rl.role_code.unwrap_or_default());
                             }
 
                             let up = UserResponse {

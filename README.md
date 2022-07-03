@@ -27,6 +27,29 @@ Chimes-rust采用actix-web作为基础的WEB框架进行开发，而在ORM方面
 3.  打包前端 frontend/eladmin-web
 4.  后端的一些配置可以修秘诀backend/chimes-rust/conf/app.yml
 
+#### 运行截图
+1. 登录
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/login.png" width="600">
+2. Home
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/home.png" width="600">
+3. 菜单
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/menus.png" width="600">
+4. 角色
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/login.png" width="600">
+5. 权限资源
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/permissions.png" width="600">
+6. 用户
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/users.png" width="600">
+7. 字典
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/dicts.png" width="600">
+8. 部门
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/depts.png" width="600">
+9. 岗位
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/jobs.png" width="600">
+10. 用户中心
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/user_center.png" width="600">
+11. 用户中心-修改头像
+<img src="https://gitee.com/poethxp/chimes-rust/raw/master/screens/user_center_update_avatar.png" width="600">
 
 #### 参与贡献
 

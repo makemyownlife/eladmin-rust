@@ -16,6 +16,9 @@
         <el-form-item label="角色名称" prop="name">
           <el-input v-model="form.name" style="width: 380px;" />
         </el-form-item>
+        <el-form-item label="角色代码" prop="role_code">
+          <el-input v-model="form.role_code" style="width: 380px;" />
+        </el-form-item>
         <el-form-item label="角色级别" prop="level">
           <el-input-number v-model.number="form.level" :min="1" controls-position="right" style="width: 145px;" />
         </el-form-item>
@@ -70,10 +73,11 @@
           <el-table ref="table" v-loading="crud.loading" highlight-current-row style="width: 100%;" :data="crud.data" @selection-change="crud.selectionChangeHandler" @current-change="handleCurrentChange">
             <el-table-column :selectable="checkboxT" type="selection" width="55" />
             <el-table-column prop="name" label="名称" />
-            <el-table-column prop="dataScope" label="数据权限" />
+            <el-table-column prop="role_code" label="代码" />
+            <el-table-column prop="data_scope" label="数据权限" />
             <el-table-column prop="level" label="角色级别" />
             <el-table-column :show-overflow-tooltip="true" prop="description" label="描述" />
-            <el-table-column :show-overflow-tooltip="true" width="135px" prop="createTime" label="创建日期" />
+            <el-table-column :show-overflow-tooltip="true" width="135px" prop="create_time" label="创建日期" />
             <el-table-column v-if="checkPer(['admin','roles:edit','roles:del'])" label="操作" width="130px" align="center" fixed="right">
               <template slot-scope="scope">
                 <udOperation
@@ -217,6 +221,9 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
+        ],
+        role_code: [
+          { required: true, message: '请输入角色代码', trigger: 'blur' }
         ],
         permission: [
           { required: true, message: '请输入权限', trigger: 'blur' }

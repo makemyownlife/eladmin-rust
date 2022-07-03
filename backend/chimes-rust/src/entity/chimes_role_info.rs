@@ -13,11 +13,12 @@ use rbson::Bson;
 use rbatis::crud::{CRUD, Skip};
 use crate::utils::bool_from_str;
 
-#[crud_table(table_name:"chimes_role"|table_columns:"role_id,name,level,description,data_scope,create_by,update_by,create_time,update_time")]
+#[crud_table(table_name:"chimes_role"|table_columns:"role_id,name,role_code,level,description,data_scope,create_by,update_by,create_time,update_time")]
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct ChimesRoleInfo {
     pub role_id: Option<i64>,
     pub name: Option<String>,
+    pub role_code: Option<String>,
     pub level: Option<i32>,
     pub description: Option<String>,
     pub data_scope: Option<String>,
@@ -72,11 +73,13 @@ impl ChimesRoleInfo {
         let wp = rb.new_wrapper()
                  .r#if(self.role_id.clone().is_some(), |w| w.and().eq("role_id", self.role_id.clone().unwrap()))
                  .r#if(self.name.clone().is_some(), |w| w.and().eq("name", self.name.clone().unwrap()))
+                 .r#if(self.role_code.clone().is_some(), |w| w.and().eq("role_code", self.role_code.clone().unwrap()))
                  .r#if(self.level.clone().is_some(), |w| w.and().eq("level", self.level.clone().unwrap()))
                  .r#if(self.description.clone().is_some(), |w| w.and().eq("description", self.description.clone().unwrap()))
                  .r#if(self.data_scope.clone().is_some(), |w| w.and().eq("data_scope", self.data_scope.clone().unwrap()))
                  .r#if(self.create_by.clone().is_some(), |w| w.and().eq("create_by", self.create_by.clone().unwrap()))
                  .r#if(self.update_by.clone().is_some(), |w| w.and().eq("update_by", self.update_by.clone().unwrap()))
+                 .r#if(self.create_time.clone().is_some(), |w| w.and().eq("create_time", self.create_time.clone().unwrap()))
                  .r#if(self.create_time.clone().is_some(), |w| w.and().eq("create_time", self.create_time.clone().unwrap()))
                  .r#if(self.update_time.clone().is_some(), |w| w.and().eq("update_time", self.update_time.clone().unwrap()));
         rb.remove_by_wrapper::<Self>(wp).await
@@ -104,6 +107,7 @@ impl ChimesRoleInfo {
         let wp = rb.new_wrapper()
                  .r#if(self.role_id.clone().is_some(), |w| w.and().eq("role_id", self.role_id.clone().unwrap()))
                  .r#if(self.name.clone().is_some(), |w| w.and().eq("name", self.name.clone().unwrap()))
+                 .r#if(self.role_code.clone().is_some(), |w| w.and().eq("role_code", self.role_code.clone().unwrap()))
                  .r#if(self.level.clone().is_some(), |w| w.and().eq("level", self.level.clone().unwrap()))
                  .r#if(self.description.clone().is_some(), |w| w.and().eq("description", self.description.clone().unwrap()))
                  .r#if(self.data_scope.clone().is_some(), |w| w.and().eq("data_scope", self.data_scope.clone().unwrap()))
@@ -120,6 +124,7 @@ impl ChimesRoleInfo {
         let wp = rb.new_wrapper()
                  .r#if(self.role_id.clone().is_some(), |w| w.and().eq("role_id", self.role_id.clone().unwrap()))
                  .r#if(self.name.clone().is_some(), |w| w.and().eq("name", self.name.clone().unwrap()))
+                 .r#if(self.role_code.clone().is_some(), |w| w.and().eq("role_code", self.role_code.clone().unwrap()))
                  .r#if(self.level.clone().is_some(), |w| w.and().eq("level", self.level.clone().unwrap()))
                  .r#if(self.description.clone().is_some(), |w| w.and().eq("description", self.description.clone().unwrap()))
                  .r#if(self.data_scope.clone().is_some(), |w| w.and().eq("data_scope", self.data_scope.clone().unwrap()))

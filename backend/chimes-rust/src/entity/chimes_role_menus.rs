@@ -22,6 +22,7 @@ use crate::entity::ChimesRolePermissionInfo;
 pub struct ChimesRoleMenus {
     pub role_id: Option<i64>,
     pub name: Option<String>,
+    pub role_code: Option<String>,
     pub level: Option<i32>,
     pub description: Option<String>,
     pub data_scope: Option<String>,
@@ -42,6 +43,7 @@ impl ChimesRoleMenus {
         ChimesRoleMenus {
             role_id: param.role_id.clone(),
             name: param.name.clone(),
+            role_code: param.role_code.clone(),
             level: param.level.clone(),
             description: param.description.clone(),
             data_scope: param.data_scope.clone(),
@@ -60,6 +62,7 @@ impl ChimesRoleMenus {
         ChimesRoleInfo {
             role_id: self.role_id.clone(),
             name: self.name.clone(),
+            role_code: self.role_code.clone(),
             level: self.level.clone(),
             description: self.description.clone(),
             data_scope: self.data_scope.clone(),

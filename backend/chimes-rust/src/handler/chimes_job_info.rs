@@ -3,10 +3,8 @@
  */
 
 use rbatis::Page;
-use crate::entity::ChimesJobInfo;
+use crate::entity::{ChimesJobInfo, ChimesJobInfoQuery};
 use crate::utils::get_rbatis;
-use core::convert::Into;
-use core::convert::From;
 use chimes_auth::ApiResult;
 use actix_web::{web, HttpResponse, Result};
 
@@ -61,8 +59,25 @@ pub async fn job_delete(req: web::Json<ChimesJobInfo>) -> Result<HttpResponse> {
 }
 
 
+#[post("/api/v1/job/delete_ids")]
+pub async fn job_delete_ids(req: web::Json<Vec<i64>>) -> Result<HttpResponse> {
+    let rb = get_rbatis();
+    let ids = req.as_slice();
+    match ChimesJobInfo::remove_ids(rb, ids).await {
+        Ok(st) => {
+            let ret: web::Json<ApiResult<u64>> = web::Json(ApiResult::ok(st));
+            Ok(HttpResponse::Ok().json(ret))
+        }
+        Err(err) => {
+            let ret: web::Json<ApiResult<u64>> = web::Json(ApiResult::error(5010, &err.to_string()));
+            Ok(HttpResponse::Ok().json(ret))
+        }
+    }
+}
+
+
 #[post("/api/v1/job/search")]
-pub async fn job_search(req: web::Json<ChimesJobInfo>) -> Result<HttpResponse> {
+pub async fn job_search(req: web::Json<ChimesJobInfoQuery>) -> Result<HttpResponse> {
     let rb = get_rbatis();
     let val = req.to_owned();
     match val.query_list(rb).await {
@@ -79,7 +94,7 @@ pub async fn job_search(req: web::Json<ChimesJobInfo>) -> Result<HttpResponse> {
 
 
 #[post("/api/v1/job/paged/{current}/{size}")]
-pub async fn job_paged(req: web::Json<ChimesJobInfo>,path_param: web::Path<(u64, u64)>) -> Result<HttpResponse> {
+pub async fn job_paged(req: web::Json<ChimesJobInfoQuery>,path_param: web::Path<(u64, u64)>) -> Result<HttpResponse> {
     let rb = get_rbatis();
     let val = req.to_owned();
     let (current, size) = path_param.into_inner();
@@ -121,19 +136,3 @@ pub async fn job_get(job_id_req: web::Path<i64>) -> Result<HttpResponse> {
 }
 
 
-#[post("/api/v1/job/delete_ids")]
-pub async fn job_delete_ids(req: web::Json<Vec<i64>>) -> Result<HttpResponse> {
-    let rb = get_rbatis();
-    let mut ids = req.to_owned();
-    let idsx = ids.as_slice();
-    match ChimesJobInfo::remove_ids(rb, idsx).await {
-        Ok(st) => {
-            let ret: web::Json<ApiResult<u64>> = web::Json(ApiResult::ok(st));
-            Ok(HttpResponse::Ok().json(ret))
-        }
-        Err(err) => {
-            let ret: web::Json<ApiResult<u64>> = web::Json(ApiResult::error(5010, &err.to_string()));
-            Ok(HttpResponse::Ok().json(ret))
-        }
-    }
-}

@@ -11,12 +11,15 @@ use rbatis::Page;
 use rbatis::PageRequest;
 use rbson::Bson;
 use rbatis::crud::{CRUD, Skip};
+use crate::utils::bool_from_str;
 
 #[crud_table(table_name:"chimes_job"|table_columns:"job_id,name,enabled,job_sort,create_by,update_by,create_time,update_time")]
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct ChimesJobInfo {
     pub job_id: Option<i64>,
     pub name: Option<String>,
+    #[serde(default)]
+    #[serde(deserialize_with="bool_from_str")]
     pub enabled: Option<bool>,
     pub job_sort: Option<i32>,
     pub create_by: Option<String>,
@@ -89,6 +92,14 @@ impl ChimesJobInfo {
 
 
     #[allow(dead_code)]
+    pub async fn remove_ids(rb: &Rbatis,ids: &[i64]) -> Result<u64, Error> {
+        let wp = rb.new_wrapper()
+            .r#in("job_id", ids);
+        rb.remove_by_wrapper::<Self>(wp).await
+    }
+
+
+    #[allow(dead_code)]
     pub async fn query_paged(&self,rb: &Rbatis,curr: u64,ps: u64) -> Result<Page<Self>, Error> {
         let wp = rb.new_wrapper()
                  .r#if(self.job_id.clone().is_some(), |w| w.and().eq("job_id", self.job_id.clone().unwrap()))
@@ -119,10 +130,67 @@ impl ChimesJobInfo {
 
 
     #[allow(dead_code)]
-    pub async fn remove_ids(rb: &Rbatis,ids: &[i64]) -> Result<u64, Error> {
+    pub async fn query_all(rb: &Rbatis) -> Result<Vec<Self>, Error> {
+        let wp = rb.new_wrapper();
+        rb.fetch_list_by_wrapper::<Self>(wp).await
+    }
+
+
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+pub struct ChimesJobInfoQuery {
+    #[serde(default)]
+    pub job_ids: Vec<i64>,
+    pub job_id: Option<i64>,
+    pub name: Option<String>,
+    #[serde(default)]
+    #[serde(deserialize_with="bool_from_str")]
+    pub enabled: Option<bool>,
+    pub job_sort: Option<i32>,
+    pub create_by: Option<String>,
+    pub update_by: Option<String>,
+    #[serde(default)]
+    pub create_time: Vec<rbatis::DateTimeNative>,
+    #[serde(default)]
+    pub update_time: Vec<rbatis::DateTimeNative>,
+}
+
+
+impl ChimesJobInfoQuery {
+    #[allow(dead_code)]
+    pub async fn query_paged(&self,rb: &Rbatis,curr: u64,ps: u64) -> Result<Page<ChimesJobInfo>, Error> {
         let wp = rb.new_wrapper()
-            .r#in("job_id", ids);
-        rb.remove_by_wrapper::<Self>(wp).await
+                 .r#if(self.job_id.clone().is_some(), |w| w.and().eq("job_id", self.job_id.clone().unwrap()))
+                 .r#if(self.job_ids.clone().is_empty() == false, |w| w.and().r#in("job_id", &self.job_ids.clone()))
+                 .r#if(self.name.clone().is_some(), |w| w.and().eq("name", self.name.clone().unwrap()))
+                 .r#if(self.enabled.clone().is_some(), |w| w.and().eq("enabled", self.enabled.clone().unwrap()))
+                 .r#if(self.job_sort.clone().is_some(), |w| w.and().eq("job_sort", self.job_sort.clone().unwrap()))
+                 .r#if(self.create_by.clone().is_some(), |w| w.and().eq("create_by", self.create_by.clone().unwrap()))
+                 .r#if(self.update_by.clone().is_some(), |w| w.and().eq("update_by", self.update_by.clone().unwrap()))
+                 .r#if(self.create_time.clone().len() == 1, |w| w.and().gt("create_time", self.create_time[0].clone()))
+                 .r#if(self.create_time.clone().len() >= 2, |w| w.and().between("create_time", self.create_time[0].clone(), self.create_time[1].clone()))
+                 .r#if(self.update_time.clone().len() == 1, |w| w.and().gt("update_time", self.update_time[0].clone()))
+                 .r#if(self.update_time.clone().len() >= 2, |w| w.and().between("update_time", self.update_time[0].clone(), self.update_time[1].clone()));
+        rb.fetch_page_by_wrapper::<ChimesJobInfo>(wp, &PageRequest::new(curr, ps)).await
+    }
+
+
+    #[allow(dead_code)]
+    pub async fn query_list(&self,rb: &Rbatis) -> Result<Vec<ChimesJobInfo>, Error> {
+        let wp = rb.new_wrapper()
+                 .r#if(self.job_id.clone().is_some(), |w| w.and().eq("job_id", self.job_id.clone().unwrap()))
+                 .r#if(self.job_ids.clone().is_empty() == false, |w| w.and().r#in("job_id", &self.job_ids.clone()))
+                 .r#if(self.name.clone().is_some(), |w| w.and().eq("name", self.name.clone().unwrap()))
+                 .r#if(self.enabled.clone().is_some(), |w| w.and().eq("enabled", self.enabled.clone().unwrap()))
+                 .r#if(self.job_sort.clone().is_some(), |w| w.and().eq("job_sort", self.job_sort.clone().unwrap()))
+                 .r#if(self.create_by.clone().is_some(), |w| w.and().eq("create_by", self.create_by.clone().unwrap()))
+                 .r#if(self.update_by.clone().is_some(), |w| w.and().eq("update_by", self.update_by.clone().unwrap()))
+                 .r#if(self.create_time.clone().len() == 1, |w| w.and().gt("create_time", self.create_time[0].clone()))
+                 .r#if(self.create_time.clone().len() >= 2, |w| w.and().between("create_time", self.create_time[0].clone(), self.create_time[1].clone()))
+                 .r#if(self.update_time.clone().len() == 1, |w| w.and().gt("update_time", self.update_time[0].clone()))
+                 .r#if(self.update_time.clone().len() >= 2, |w| w.and().between("update_time", self.update_time[0].clone(), self.update_time[1].clone()));
+        rb.fetch_list_by_wrapper::<ChimesJobInfo>(wp).await
     }
 
 
