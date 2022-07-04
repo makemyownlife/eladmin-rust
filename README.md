@@ -69,3 +69,17 @@ Chimes-rust采用actix-web作为基础的WEB框架进行开发，而在ORM方面
 3.  提交代码
 4.  新建 Pull Request
 
+# 联系方式/捐赠,或 [chimes-rust](https://gitee.com/poethxp/chimes-rust) 点star
+
+> 捐赠
+
+<img style="width: 400px;height: 545px;" width="400" height="545" src="https://gitee.com/poethxp/rbatis-generator/raw/master/wx_account.jpg" alt="enjoylost"/>
+
+
+#### 使用chimes-rust为基础的其它软件
+
+> 持续增加中...
+
+1. 海棠记账
+
+<img style="width: 200px; height: 200px;" width="200" height="200" src="https://gitee.com/poethxp/rbatis-generator/raw/master/begonia.jpg" alt="海棠记账"/>
