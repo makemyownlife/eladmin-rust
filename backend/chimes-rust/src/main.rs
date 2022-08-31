@@ -2,6 +2,7 @@
 #[macro_use]
 extern crate actix_web;
 
+use actix_web::dev::{ServiceFactory, ServiceRequest};
 use chimes_auth::ChimesAuthorization;
 // #[macro_use]
 // extern crate wechat;
@@ -15,7 +16,7 @@ extern crate lazy_static;
 // use awc::Client;
 
 use actix_web::http::{StatusCode, header};
-use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result, error::{ Error }};
 use actix_cors::Cors;
 
 
@@ -27,18 +28,7 @@ mod query;
 mod utils;
 use tokio::time;
 
-use crate::utils::{AppConfig, WebServerConfig, ChimesUserAuthService};
-
-trait AppEntryCollect {
-    fn show_all_entry(self) -> Self;
-}
-
-
-impl <T> AppEntryCollect for App<T> {
-    fn show_all_entry(self) -> Self {
-        self
-    }
-}
+use crate::utils::{AppConfig, WebServerConfig, ChimesUserAuthService, AppEntryCollect};
 
 #[get("/")]
 async fn index_handler(_req: HttpRequest) -> Result<HttpResponse> {
@@ -109,94 +99,7 @@ async fn start_web_server(webconf: &WebServerConfig) -> std::io::Result<()> {
             )
             .app_data(awmp::PartsConfig::default().with_file_limit(1000000000).with_temp_dir(temp_path.as_str()))
             .service(index_handler)
-            .service(crate::handler::query_user_permission_paged)
-            .service(crate::handler::query_user_permission_query)
-            .service(crate::handler::user_save)
-            .service(crate::handler::user_update)
-            .service(crate::handler::user_delete)
-            .service(crate::handler::user_search)
-            .service(crate::handler::user_paged)
-            .service(crate::handler::user_get)
-            .service(crate::handler::menu_save)
-            .service(crate::handler::menu_update)
-            .service(crate::handler::menu_delete)
-            .service(crate::handler::menu_delete_ids)
-            .service(crate::handler::menu_search)
-            .service(crate::handler::menu_children)
-            .service(crate::handler::menu_paged)
-            .service(crate::handler::menu_get)
-            .service(crate::handler::menu_superior)
-            .service(crate::handler::permission_save)
-            .service(crate::handler::permission_update)
-            .service(crate::handler::permission_delete)
-            .service(crate::handler::permission_delete_ids)
-            .service(crate::handler::permission_search)
-            .service(crate::handler::permission_paged)
-            .service(crate::handler::permission_get)
-            .service(crate::handler::permission_children)
-            .service(crate::handler::role_save)
-            .service(crate::handler::role_update)
-            .service(crate::handler::role_delete)
-            .service(crate::handler::role_delete_ids)
-            .service(crate::handler::role_search)
-            .service(crate::handler::role_paged)
-            .service(crate::handler::role_get)
-            .service(crate::handler::role_level)
-            .service(crate::handler::role_menus_rel_save)
-            .service(crate::handler::role_menus_rel_remove_ids)
-            .service(crate::handler::dept_save)
-            .service(crate::handler::dept_update)
-            .service(crate::handler::dept_delete)
-            .service(crate::handler::dept_delete_ids)
-            .service(crate::handler::dept_search)
-            .service(crate::handler::dept_paged)
-            .service(crate::handler::dept_get)
-            .service(crate::handler::dept_tree)
-            .service(crate::handler::dept_superior)
-            .service(crate::handler::job_save)
-            .service(crate::handler::job_update)
-            .service(crate::handler::job_delete)
-            .service(crate::handler::job_delete_ids)
-            .service(crate::handler::job_search)
-            .service(crate::handler::job_paged)
-            .service(crate::handler::job_get)
-            .service(crate::handler::dict_save)
-            .service(crate::handler::dict_update)
-            .service(crate::handler::dict_delete)
-            .service(crate::handler::dict_delete_ids)
-            .service(crate::handler::dict_search)
-            .service(crate::handler::dict_paged)
-            .service(crate::handler::dict_get)
-            .service(crate::handler::dict_detail_save)
-            .service(crate::handler::dict_detail_update)
-            .service(crate::handler::dict_detail_delete)
-            .service(crate::handler::dict_detail_delete_ids)
-            .service(crate::handler::dict_detail_search)
-            .service(crate::handler::dict_detail_paged)
-            .service(crate::handler::dict_detail_get)
-            .service(crate::handler::query_dict_detail_query)
-            .service(crate::handler::query_dict_detail_paged)
-            .service(crate::handler::logs_save)
-            .service(crate::handler::logs_update)
-            .service(crate::handler::logs_delete)
-            .service(crate::handler::logs_delete_ids)
-            .service(crate::handler::logs_search)
-            .service(crate::handler::logs_paged)
-            .service(crate::handler::logs_get)
-            .service(crate::handler::user_roles_rel_load)
-            .service(crate::handler::user_roles_rel_remove)
-            .service(crate::handler::user_roles_rel_save)
-            .service(crate::handler::auth_code)
-            .service(crate::handler::auth_login)
-            .service(crate::handler::auth_info)
-            .service(crate::handler::auth_logout)
-            .service(crate::handler::menu_build)
-            .service(crate::handler::user_center_update)
-            .service(crate::handler::user_center_update_email)
-            .service(crate::handler::user_center_update_pwd)
-            .service(crate::handler::user_center_update_avatar)
-            .service(crate::handler::show_avatar)
-            .show_all_entry()
+            .register_handlers()
     })
     .bind(ip)?
     .run()

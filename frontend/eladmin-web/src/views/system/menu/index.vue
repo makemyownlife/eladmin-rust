@@ -165,7 +165,7 @@ export default {
   name: 'Menu',
   components: { Treeselect, IconSelect, crudOperation, rrOperation, udOperation, DateRangePicker },
   cruds() {
-    return CRUD({ title: '菜单', url: 'api/v1/menu/paged', idField: 'menu_id', crudMethod: { ...crudMenu }})
+    return CRUD({ title: '菜单', url: 'api/v1/menu/paged', idField: 'id', crudMethod: { ...crudMenu }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
@@ -200,6 +200,11 @@ export default {
         // this.menus.push({ id: 0, label: '顶级类目', children: null })
         this.getSupMenu([0])
       }
+    },
+    [CRUD.HOOK.afterValidateCU](crud) {
+      crud.form = this.form
+      crud.form.menu_id = this.form.id
+      return true
     },
     getMenus(tree, treeNode, resolve) {
       console.log('Get Menu')
